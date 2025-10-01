@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Práctica de Eventos JS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    button { margin: 5px; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    input { padding: 6px; border-radius: 4px; }
+    #log { margin-top: 20px; border: 1px solid #ccc; padding: 10px; min-height: 80px; background: #f8f8f8; }
+    #scrollBox { margin-top: 10px; border:1px solid #aaa; height: 100px; overflow:auto; padding:5px; background:#fff;}
+  </style>
+</head>
+<body>
+
+  <h1>Práctica de Eventos JavaScript</h1>
+
+  <p>Usa los botones, input y formulario para probar distintos eventos.</p>
+
+  <!-- Botones de ratón -->
+  <button onclick="mostrarBotonClicado()" id="btnClick">Click</button>
+  <button onclick="mostrarDobleBotonClicado()" id="btnDbl">Doble Click</button>
+  <button onmouseover="ratonSobreCasilla(log)" onmouseout="ratonFueraCasilla()" id="btnMouse">Hover</button>
+
+  <!-- Input -->
+  <div style="margin-top:10px;">
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+  </div>
+
+  <!-- Formulario -->
+  <form id="miForm" style="margin-top:10px;">
+    <input type="text" id="apellido" placeholder="Apellido">
+    <button type="submit">Enviar</button>
+    <button type="reset">Reset</button>
+  </form>
+
+  <!-- Caja con scroll -->
+  <div id="scrollBox">
+    <p>Esta es un área con scroll. Haz scroll aquí para disparar un evento.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+    <p>Más contenido para hacer scroll.</p>
+  </div>
+
+  <!-- Panel de log -->
+  <div id="log">Eventos aparecerán aquí...</div>
+
+  <script>
+    const log = document.getElementById('log');
+
+    function appendLog(text) {
+      log.innerHTML = text + '<br>' + log.innerHTML;
+    }
+
+    // === RATÓN ===
+    const btnClick = document.getElementById('btnClick');
+    const btnDbl = document.getElementById('btnDbl');
+    const btnMouse = document.getElementById('btnMouse');
+
+    
+    // Añadir un evento "click" a btnClick que muestre "Botón clicado"
+    
+
+    btnClick.addEventListener('click',()=>{appendLog("Botón clicado")});
+    
+    // Añadir un evento "dblclick" a btnDbl que muestre "Botón doble clicado"
+    btnDbl.addEventListener('click',()=>{appendLog("Botón doble clicado")});
+
+
+    // Añadir eventos "mouseenter" y "mouseleave" a btnMouse que muestren "Entró el mouse" y "Salió el mouse"
+    btnMouse.addEventListener('mouseover',()=>{appendLog("Entró al mouse")});
+    btnMouse.addEventListener('mouseout',()=>{appendLog("Saló el mouse")});
+
+    
+
+    // === TECLADO ===
+    const nombre = document.getElementById('nombre');
+
+    // Añadir evento "input" para mostrar lo que el alumno escribe en el log
+    nombre.addEventListener('input', () => {
+      appendLog(nombre.value);
+    });
+
+    // Añadir evento "keydown" global que muestre la tecla presionada
+    nombre.addEventListener('keydown',()=>{appendLog
+      (event.key)
+    });
+
+    // === FORMULARIO ===
+    const miForm = document.getElementById('miForm');
+    const apellido = document.getElementById('apellido');
+
+    // Evento "submit" que muestre el valor de apellido y evite enviar
+    miForm.addEventListener('submit', () => {
+      appendLog(apellido.value);
+    });
+
+    // Evento "reset" que muestre "Formulario reiniciado"
+    miForm.addEventListener('reset', () => {
+      appendLog("Formulario reiniciado");
+    });
+
+    // === VENTANA / SCROLL ===
+    const scrollBox = document.getElementById('scrollBox');
+
+    // Evento "scroll" que muestre "Scroll en el área"
+    scrollBox.addEventListener('scroll', () => {
+      appendLog("Scroll en el área");
+    });
+
+    // Evento "resize" de la ventana que muestre "Ventana redimensionada"
+    window.addEventListener('resize', () => {
+      appendLog("Ventana redimensionada");
+}   );
+  </script>
+
+</body>
+</html>
