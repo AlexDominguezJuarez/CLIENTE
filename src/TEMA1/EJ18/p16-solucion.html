@@ -41,9 +41,9 @@
 
     const $btnImg1=$("#btnImg1");
     $btnImg1.on("click", function() {
-      $img=("#img1");
-      img.attr("src", "calabaza.png");
-      img.attr("alt", "Imagen nueva");
+      const $img=$("#img1");
+      $img.attr("src", "calabaza.png");
+      $img.attr("alt", "Imagen nueva");
     })
 
   </script>
@@ -55,11 +55,13 @@
 <button id="btnDiv1">Activar acción</button>
 
 <script>
-  const $btnDiv1=("#btnDiv1");
-  $btnDiv1.on("click", function() {
-    const $div1=("#div1");
-    $div.css({color:"white"},{background:"#4CAF50"},{textContent:"¡Accion completada!"});
-  })
+  $("#btnDiv1").on("click", function() {
+    const $div = $("#div1");
+    $div.css({
+      "color": "white",
+      "background": "#4CAF50"
+    }).text("¡Acción completada!");
+  });
 
 
 </script>
@@ -72,7 +74,7 @@
   <script>
     const $btnInput1 = $("#btnInput1");
     $btnInput1.on("click", function() {
-      $input=("#input1");
+      $input=$("#input1");
       $input.attr("type","password");
     })
 
@@ -85,7 +87,7 @@
   <script>
     const $btnLink2 = $("#btnLink2");
     $btnLink2.on("click", function() {
-      const $link2=("#link2");
+      const $link2=$("#link2");
       $link2.attr("target","_self")
     })
 
@@ -96,9 +98,9 @@
   <button id="btn6">Botón sin title</button>
 
   <script>
-    const $btn6=("#btn6");
+    const $btn6=$("#btn6");
     $btn6.on("click", function() {
-      $btn6.attr("title","Este es un botón")
+      $(this).attr("title","Este es un botón")
     })
 
 
