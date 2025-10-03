@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solución Práctica setAttribute</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { color: #333; }
+    button { margin: 5px; padding: 8px 12px; cursor: pointer; }
+    img, a { display: block; margin-top: 10px; }
+    input { padding: 5px; margin-top: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>Solución de la práctica de setAttribute</h1>
+
+  <!-- EJERCICIO 1 -->
+  <a id="link1" href="https://www.ejemplo1.com" target="_blank">Ir a Ejemplo 1</a>
+  <button id="btnLink1">Cambiar enlace</button>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <script>
+
+
+    const $btnlink1=$("#btnLink1");
+
+    $btnlink1.on("click", function() {
+      const $link1 = $("#link1");
+      $link1.attr("href", "https://www.ejemplo2.com");
+    });
+
+  </script>
+
+  <!-- EJERCICIO 2 -->
+  <img id="img1" src="brocoli.png" alt="Imagen 1" width="200">
+  <button id="btnImg1">Cambiar imagen</button>
+
+  <script>
+
+    const $btnImg1=$("#btnImg1");
+    $btnImg1.on("click", function() {
+      $img=("#img1");
+      img.attr("src", "calabaza.png");
+      img.attr("alt", "Imagen nueva");
+    })
+
+  </script>
+
+  <!-- EJERCICIO 3 -->
+<p><!-- Al hacer clic, cambia el color y muestra un mensaje en el div --></p>
+<div id="div1" style="width:150px;height:50px;background:#ccc;display:flex;align-items:center;justify-content:center;">
+</div>
+<button id="btnDiv1">Activar acción</button>
+
+<script>
+  const $btnDiv1=("#btnDiv1");
+  $btnDiv1.on("click", function() {
+    const $div1=("#div1");
+    $div.css({color:"white"},{background:"#4CAF50"},{textContent:"¡Accion completada!"});
+  })
+
+
+</script>
+
+
+  <!-- EJERCICIO 4 -->
+  <input type="text" id="input1" placeholder="Escribe aquí">
+  <button id="btnInput1">Cambiar a password</button>
+
+  <script>
+    const $btnInput1 = $("#btnInput1");
+    $btnInput1.on("click", function() {
+      $input=("#input1");
+      $input.attr("type","password");
+    })
+
+  </script>
+
+  <!-- EJERCICIO 5 -->
+  <a id="link2" href="https://www.ejemplo.com" target="_blank">Ir a Ejemplo</a>
+  <button id="btnLink2">Abrir en misma ventana</button>
+
+  <script>
+    const $btnLink2 = $("#btnLink2");
+    $btnLink2.on("click", function() {
+      const $link2=("#link2");
+      $link2.attr("target","_self")
+    })
+
+
+  </script>
+
+  <!-- EJERCICIO 6 -->
+  <button id="btn6">Botón sin title</button>
+
+  <script>
+    const $btn6=("#btn6");
+    $btn6.on("click", function() {
+      $btn6.attr("title","Este es un botón")
+    })
+
+
+  </script>
+
+</body>
+</html>
