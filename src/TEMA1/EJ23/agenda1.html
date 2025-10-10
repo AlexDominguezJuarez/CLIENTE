@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda1</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<button id="btnUsuarios">Mostrar usuarios</button>
+
+<div id="divUsuarios"></div>
+
+<script>
+  $("#btnUsuarios").click(function() {
+    $.ajax({
+      url: "usuarios.json",  // archivo JSON
+      method: "GET",
+      dataType: "json",
+      success: function(respuesta) {
+        let html = "<table border='1' cellspacing='0' cellpadding='5'>";
+        html += "<tr><th>Nombre</th><th>Edad</th><th>Profesión</th><th>Ciudad</th></tr>";
+
+        $.each(respuesta.usuarios, function(index, usuario) {
+          html += `<tr>
+                <td>${usuario.nombre}</td>
+                <td>${usuario.edad}</td>
+                <td>${usuario.profesion}</td>
+                <td>${usuario.ciudad}</td>
+             </tr>`;
+        });
+
+        html += "</table>";
+        $("#divUsuarios").html(html);
+      },
+
+
+      error: function() {
+        alert("Error al cargar los datos");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
