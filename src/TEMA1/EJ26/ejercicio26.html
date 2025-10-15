@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Adivina el número</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <style>
+        body { font-family: Arial; text-align: center; margin-top: 40px; }
+        input, button { font-size: 18px; margin: 5px; }
+    </style>
+</head>
+<body>
+<h1>Adivina el número (1 al 10)</h1>
+<p>Introduce un número y pulsa comprobar.</p>
+<input type="number" id="numero" min="1" max="10">
+<button onclick="comprobar()" id="comprobar">Comprobar</button>
+<p id="resultado"></p>
+
+<script>
+  const secreto = Math.floor(Math.random() * 10) + 1;
+  const resultado = document.getElementById('resultado');
+/*JS
+
+  function comprobar(){
+    let numeroUsuario=parseInt(document.getElementById('numero').value);
+
+    if(numeroUsuario==secreto){
+      resultado.style.color = 'green';
+        resultado.textContent=`¡Felicidades, has acertado el numero!`
+    }else if(numeroUsuario>secreto){
+      resultado.textContent='El numero a buscar es menor'
+      resultado.style.color = 'red';
+
+    }else{
+      resultado.textContent='El numero a buscar es mayor'
+      resultado.style.color = 'red';
+    }
+  }*/
+
+  //JQUERY
+
+  const $resultado = $('#resultado');
+  const $btn = $("#comprobar");
+
+  $btn.click(function() {
+    let numeroUsuario = parseInt($('#numero').val());
+
+    if (numeroUsuario === secreto) {
+      $resultado.css('color', 'green').text('¡Felicidades, has acertado el número!');
+    } else if (numeroUsuario>secreto) {
+      $resultado.css('color', 'orange').text('El numero es mas pequeño');
+    } else {
+      $resultado.css('color', 'red').text('El numero es mas grande');
+    }
+  });
+
+    //TO DO
+
+</script>
+</body>
+</html>

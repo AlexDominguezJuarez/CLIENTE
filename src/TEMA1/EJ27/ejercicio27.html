@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Piedra, Papel o Tijera (con id)</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+            background-color: #f8f8f8;
+        }
+        h1 { color: #333; }
+        button {
+            font-size: 18px;
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+        }
+        button:hover { background-color: #2980b9; }
+        #resultado {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #elecciones {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Piedra, Papel o Tijera</h1>
+<p>Elige una opción:</p>
+
+<button id="piedra">🪨 Piedra</button>
+<button id="papel">📄 Papel</button>
+<button id="tijera">✂️ Tijera</button>
+
+<p id="contadores"></p>
+<p id="elecciones"></p>
+<p id="resultado"></p>
+<p id="registro"></p>
+
+
+
+<script>
+  $(document).ready(function() {
+
+
+
+
+    let victoriasJugador=0;
+    let victoriasMaquina=0;
+
+    const $contador=$("#contadores");
+    const $resultado = $('#resultado');
+    const $elecciones = $('#elecciones');
+    const $registro=$('#registro');
+
+
+      function appendLog(text) {
+        const fecha = new Date().toLocaleString();
+        const $registro = $('#registro');
+        $registro.prepend(fecha + " - " + text + "<br>");
+      }
+
+    function jugar(valorJugador, simboloJugador) {
+
+      $elecciones.text('Tu elección: ' + simboloJugador);
+      const secreto = Math.floor(Math.random() * 3) + 1;
+      const simboloIA = secreto == 1 ? '🪨' : secreto == 2 ? '📄' : '✂️';
+      let mensaje = '';
+      let color = '';
+
+      if (valorJugador === secreto) {
+        mensaje = `Empate, ambos sacasteis ${simboloJugador}`;
+        color = 'orange';
+      } else if (
+        (valorJugador === 1 && secreto === 2) ||
+        (valorJugador === 2 && secreto === 3) ||
+        (valorJugador === 3 && secreto === 1)
+      ) {
+        mensaje = `Has perdido, la IA escogió ${simboloIA}`;
+        color = 'red';
+        victoriasMaquina++;
+      } else {
+        mensaje = `¡Has ganado, la IA escogió ${simboloIA}!`;
+        color = 'green';
+        victoriasJugador++;
+      }
+
+      $resultado.css('color', color).text(mensaje);
+      $contador.text('Victorias jugador: '+victoriasJugador+" // Victorias IA: "+victoriasMaquina);
+      $registro.appendLog(mensaje)
+    }
+
+    $('#piedra').click(function() { jugar(1, '🪨'); });
+    $('#papel').click(function() { jugar(2, '📄'); });
+    $('#tijera').click(function() { jugar(3, '✂️'); });
+
+
+  });
+
+</script>
+
+</body>
+</html>
