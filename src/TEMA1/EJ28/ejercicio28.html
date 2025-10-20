@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actividad JS</title>
+</head>
+<body>
+<h1 id="titulo">Bienvenido a JavaScript</h1>
+<p class="texto">Este es un párrafo de ejemplo.</p>
+<p class="texto">Otro párrafo más.</p>
+
+<button id="botonCambiar">Cambiar texto</button>
+<button id="botonColor">Cambiar color</button>
+<button id="botonOcultar">Ocultar título</button>
+
+<p id="parrafoNuevo">No vine la semana pasada</p>
+
+<script>
+  const botonCambiar = document.getElementById('botonCambiar');
+  const botonColor = document.getElementById('botonColor');
+  const botonOcultar = document.getElementById('botonOcultar');
+
+  // 1. Mostrar texto de los párrafos y cambiar el título
+  botonCambiar.addEventListener('click', () => {
+    const parrafos = document.querySelectorAll('p');
+    parrafos.forEach(p => console.log(p.textContent));
+
+    const titulo = document.getElementById('titulo');
+    titulo.textContent = "Título cambiado :)";
+  });
+
+  // 2. Cambiar color de los párrafos con clase "texto"
+  botonColor.addEventListener('click', () => {
+    const elementosTexto = document.querySelectorAll('.texto');
+    elementosTexto.forEach(elemento => {
+      elemento.style.color = 'blue';
+    });
+  });
+
+  // 3. Ocultar el título
+  botonOcultar.addEventListener('click', () => {
+    const titulo = document.getElementById('titulo');
+    titulo.style.display = 'none';
+  });
+</script>
+</body>
+</html>
