@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>DNI con letra</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h2>DNI's introducidos</h2>
+<div id="resultado"></div>
+
+<script>
+  const dnis = [];
+  const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+
+  const intervaloTiempo = setInterval(() => {
+    let dni = prompt("Introduce un DNI o pulsa -1 para salir");
+
+    if (dni === "-1") {
+      clearInterval(intervaloTiempo);
+      mostrarDnis();
+    } else {
+      dni = dni.trim();
+      if (dni !== "" && !isNaN(dni)) {
+        dnis.push(dni);
+      } else {
+        alert("Introduce un DNI válido.");
+      }
+    }
+  }, 20000); // cada 20 segundos
+
+  function mostrarDnis() {
+    if (dnis.length === 0) {
+      $('#resultado').html("No se han introducido DNIs.");
+      return;
+    }
+
+    const listas = dnis.map(function(dni) {
+      const numero = Number(dni);
+      const letra = letras[numero % 23];
+      return `${dni}-${letra}`;
+    });
+
+    // Mostrar todos los DNIs en el div, separados por saltos de línea
+    $('#resultado').html(listas.join('<br>'));
+  }
+</script>
+</body>
+</html>
+
+
