@@ -1,26 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Números primos y palíndromos</title>
 </head>
 <body>
+<h1>Números primos y palíndromos</h1>
+<div id="resultado"></div>
 
 <script>
-  function calcularNumerosPrimos(){
-    for (let i=2;i<10000;i++){
-      while (i<=10000){
-        if(i%2==0){
-          return i;
+  function calcularNumerosPrimos() {
+    let numerosPrimos = [];
 
+    for (let i = 2; i < 100000; i++) {
+      let esPrimo = true;
+
+      for (let j = 2; j <= Math.sqrt(i); j++) {
+        if (i % j === 0) {
+          esPrimo = false;
+          break;
         }
       }
 
+      if (esPrimo) {
+        numerosPrimos.push(i);
+      }
     }
+
+    return numerosPrimos;
   }
-  wai
+
+  function calcularPalindromos() {
+    let numerosCapicua = [];
+
+    for (let i = 2; i < 100000; i++) {
+      let numeroString = i.toString();
+      let numeroInvertido = numeroString.split("").reverse().join("");
+
+      if (numeroString === numeroInvertido) {
+        numerosCapicua.push(i);
+      }
+    }
+
+    return numerosCapicua;
+  }
+
+  function calcularPalindromosYPrimos() {
+    let numerosCapicuas = calcularPalindromos();
+    let numerosPrimos = calcularNumerosPrimos();
+
+    // Buscar los que están en ambos
+    let conjunto = [];
+
+    for (let i = 0; i < numerosCapicuas.length; i++) {
+      for (let j = 0; j < numerosPrimos.length; j++) {
+        if (numerosCapicuas[i] === numerosPrimos[j]) {
+          conjunto.push(numerosCapicuas[i]);
+        }
+      }
+    }
+
+    return conjunto;
+  }
+
+  // Mostrar resultado en el HTML
+  const resultado = calcularPalindromosYPrimos();
+  document.getElementById("resultado").textContent =
+    "Números que son capicúa y primos: "+ resultado.join(", ");
 </script>
-
-
 </body>
 </html>

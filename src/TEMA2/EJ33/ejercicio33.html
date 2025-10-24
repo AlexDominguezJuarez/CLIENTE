@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Desglose de cadena</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<h1>Desglose de cadena</h1>
+
+<h1>Separar datos personales</h1>
+
+<input type="text" id="cadena" placeholder="nombre:apellidos:telefono:email:codigopostal" size="50">
+<button onclick="procesarCadena()" id="enviar">Procesar</button>
+
+<div id="resultado"></div>
+<script>
+  $(function(){
+
+    $('#enviar').on('click', function(){
+      let cadena=$('#cadena').val().trim();
+      let partes=[];
+
+      partes=cadena.split(':');
+      let nombre=partes[0];
+      let apellidos=partes[1];
+      let telefono=partes[2];
+      let email=partes[3];
+      let codigopostal=partes[4];
+      let servidor=email.split('@')[1];
+
+      $('#resultado').html("nombre:"+nombre+" / apellidos:"+apellidos+" / telefono:"+telefono+" / servidor:"+servidor+" / codigo postal:"+codigopostal);
+    })
+
+  })
+  //alex:dominguez juarez:691391890:aledomjua@alu.edu.gva.es:12550
+</script>
+</body>
+</html>
