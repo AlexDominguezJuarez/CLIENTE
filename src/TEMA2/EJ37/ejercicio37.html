@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Práctica de Objetos con jQuery</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h2>Registro de usuario (práctica con objetos y jQuery)</h2>
+
+<!-- //1 Creamos un formulario simple con tres inputs -->
+<form id="userForm">
+  <label>Nombre:</label>
+  <input type="text" id="name"><br><br>
+
+  <label>Edad:</label>
+  <input type="number" id="age"><br><br>
+
+  <label>Email:</label>
+  <input type="email" id="email"><br><br>
+
+  <!-- //2 Botón que activará el evento click -->
+  <button type="button" id="btnGuardar">Guardar usuario</button>
+</form>
+
+<h3>Datos del usuario:</h3>
+<div id="output"></div>
+
+<script>
+  $(document).ready(function() {
+
+    //3 Cuando el usuario hace clic en el botón...
+    $('#btnGuardar').on('click', function() {
+
+      //4 Creamos un objeto con los valores del formulario
+      const usuario={nombre:$("#name").val()
+        ,edad:parseInt($("#age").val())
+        ,email:$("#email").val()};
+
+      //5 Mostramos el objeto en el div de salida
+        $("#output").html(
+          `<p><strong>Nombre:</strong> ${usuario.nombre}</p>
+             <p><strong>Edad:</strong> ${usuario.edad}</p>
+             <p><strong>Email:</strong> ${usuario.email}</p>`
+        );
+
+
+      //6 Mostramos el objeto completo por consola
+        console.log(usuario);
+//7 Cambiamos color del input al ganar foco
+      $("#userForm input").on("focus", function() {
+        $(this).css("background-color", "#e0f7fa");
+      });
+
+
+      //8 Restauramos color al perder el foco
+      $("#userForm input").on("blur", function() {
+        $(this).css("background-color", "");
+      });
+
+
+    });
+
+  });
+</script>
+</body>
+</html>

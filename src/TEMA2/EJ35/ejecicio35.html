@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Práctica Arrays con jQuery</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h2>Lista de frutas</h2>
+<ul id="listaFrutas"></ul>
+
+<script>
+  $(function() {
+    // 1. Crear un array con algunas frutas
+    const arrayFrutas=["Manzanas","Peras","Platano","Naranjas"];
+
+    // 2. Añadir una fruta al final
+    arrayFrutas.push("Uvas");
+
+    // 3. Añadir una fruta al inicio
+    arrayFrutas.unshift("Melones");
+
+    // 4. Eliminar la última fruta
+    arrayFrutas.pop();
+
+    // 5. Eliminar la primera fruta
+    arrayFrutas.shift();
+
+    // 6. Comprobar si existe "Fresa" y sacarlo por consola
+    let incluido=false;
+    if(arrayFrutas.includes("Fresa")){
+      incluido=true;
+
+    };
+    if(incluido==true){
+      console.log("Fresa está en la lista");
+    }
+
+    // 7. Buscar el índice de "Plátano" y sacarlo por consola
+    let indice=arrayFrutas.indexOf("Platano")
+    console.log("El indice de platano es "+indice);
+
+    // 8. Recorrer el array y mostrarlo en la página
+    arrayFrutas.forEach((element,index) => {
+      console.log(arrayFrutas[index]);
+    })
+
+    // 9. Crear un nuevo array con todas las frutas en mayúsculas
+
+    let arrayMayusculas= [];
+    arrayFrutas.forEach((element,index) => {
+        arrayMayusculas.push(element.toUpperCase());
+      })
+    console.log(arrayMayusculas);
+
+
+
+
+    // 10. Filtrar frutas que tengan la letra "a"
+    let frutasConA=[];
+    arrayFrutas.forEach((element,index) => {
+      if(element.includes('a'||'A')){
+        frutasConA.push(element);
+      }
+    })
+    console.log(frutasConA);
+
+  });
+
+
+
+</script>
+</body>
+</html>
