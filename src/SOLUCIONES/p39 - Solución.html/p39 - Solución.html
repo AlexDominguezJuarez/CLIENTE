@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Interactivo - Nivel Inicial</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 30px auto;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .valid {
+            border-color: green;
+        }
+        .invalid {
+            border-color: red;
+        }
+        .msg {
+            font-size: 0.9em;
+            height: 18px;
+        }
+        #success {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Inscripción al Curso</h2>
+
+<form id="formInscripcion">
+    <label>Nombre:
+        <input type="text" id="nombre">
+        <span class="msg" id="msgNombre"></span>
+    </label>
+
+    <label>Correo electrónico:
+        <input type="email" id="email">
+        <span class="msg" id="msgEmail"></span>
+    </label>
+
+    <label>Contraseña:
+        <input type="password" id="password">
+        <span class="msg" id="msgPassword"></span>
+    </label>
+
+    <button type="submit" id="btnEnviar" disabled>Enviar</button>
+</form>
+
+<p id="success">¡Formulario enviado correctamente!</p>
+
+<script>
+    $(function() {
+
+        // Función para validar el formulario completo
+        function validarFormulario() {
+            const nombreValido = $('#nombre').val().trim().length > 0;
+            const emailValido = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('#email').val());
+            const passwordValido = $('#password').val().length >= 6;
+
+            // Activar o desactivar el botón
+            $('#btnEnviar').prop('disabled', !(nombreValido && emailValido && passwordValido));
+        }
+
+        // Validar campo de nombre en tiempo real
+        $('#nombre').on('input', function() {
+            if ($(this).val().trim().length > 0) {
+                $(this).addClass('valid').removeClass('invalid');
+                $('#msgNombre').text('✅');
+            } else {
+                $(this).addClass('invalid').removeClass('valid');
+                $('#msgNombre').text('❌ Campo obligatorio');
+            }
+            validarFormulario();
+        });
+
+        // Validar email
+        $('#email').on('input', function() {
+            const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($(this).val());
+            if (emailOk) {
+                $(this).addClass('valid').removeClass('invalid');
+                $('#msgEmail').text('✅');
+            } else {
+                $(this).addClass('invalid').removeClass('valid');
+                $('#msgEmail').text('❌ Formato no válido');
+            }
+            validarFormulario();
+        });
+
+        // Validar contraseña
+        $('#password').on('input', function() {
+            if ($(this).val().length >= 6) {
+                $(this).addClass('valid').removeClass('invalid');
+                $('#msgPassword').text('✅');
+            } else {
+                $(this).addClass('invalid').removeClass('valid');
+                $('#msgPassword').text('❌ Mínimo 6 caracteres');
+            }
+            validarFormulario();
+        });
+
+        // Envío del formulario
+        $('#formInscripcion').on('submit', function(e) {
+            e.preventDefault(); // Evita que recargue la página
+            $('#success').fadeIn();
+            $(this).trigger('reset');
+            $('input').removeClass('valid invalid');
+            $('.msg').text('');
+            $('#btnEnviar').prop('disabled', true);
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 39</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<style>
+  .error {
+      display: none;
+      color: red;
+      border: 2px solid red;
+  }
+  .ok{
+      display: block;
+      border: 2px solid green;
+  }
+
+</style>
+<body>
+<form>
+
+  <label>Nombre:</label>
+  <input type="text" id="nombre">
+  <div id="nombrediv"></div>
+
+  <label>Email:</label>
+  <input type="email" id="email">
+  <div id="emaildiv"></div>
+
+  <label>Contraseña:</label>
+  <input type="password" id="password">
+  <div id="passwdorddiv"></div>
+
+
+</form>
+
+
+<script>
+  const $nombreDiv=$("#nombrediv");
+  const $emailDiv=$("#emaildiv");
+  const $passwordDiv=$("#passworddiv");
+
+  const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  $nombreDiv.on("input",function() {
+    
+  if ( $("#nombre").val().length<=0 ){
+    $nombreDiv.addClass("error").removeClass("ok");
+  }else {
+    $nombreDiv.addClass("ok").removeClass("error");
+  }
+  });
+
+  $emailDiv.on("input",function() {
+    if ( $("#password").val().length<=5 ){
+      $passwordDiv.addClass("error").removeClass("ok");
+    }else{
+      $passwordDiv.removeClass("error").addClass("ok");
+    }
+  });
+
+  correo.on("input", function() {
+    if (!regexCorreo.test(correo.val().trim())) {
+      correo.addClass("error").removeClass("ok");
+      $("#error-correo").show();
+    } else {
+      correo.addClass("ok").removeClass("error");
+      $("#error-correo").hide();
+    }
+  });
+
+
+
+
+
+
+</script>
+</body>
+</html>

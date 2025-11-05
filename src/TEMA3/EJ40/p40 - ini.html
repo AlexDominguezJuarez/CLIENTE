@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario con validación y progreso</title>
+
+    <!-- Cargamos jQuery desde CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* === ESTILOS BÁSICOS DEL FORMULARIO === */
+        body { font-family: Arial; margin: 20px; max-width: 450px; }
+        form { display: flex; flex-direction: column; gap: 10px; }
+
+        /* Estilo de los inputs */
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+
+        /* Resaltado rojo para campos con error */
+        input.error { border-color: red; background-color: #ffe6e6; }
+
+        /* === BARRA DE PROGRESO === */
+        #progressContainer {
+            width: 100%;
+            background: #ddd;
+            border-radius: 4px;
+            height: 10px;
+            margin-top: 10px;
+        }
+
+        /* Parte verde de la barra que crece según los campos válidos */
+        #progressBar {
+            height: 10px;
+            width: 0%;
+            background: #28a745;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        /* Mensaje de éxito oculto por defecto */
+        #success {
+            display: none;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Formulario con validación en tiempo real</h2>
+
+<!-- === FORMULARIO === -->
+<form id="formCurso">
+    <!-- Campo de texto para el nombre -->
+    <input type="text" id="nombre" name="nombre" placeholder="Nombre completo">
+
+    <!-- Campo de correo electrónico -->
+    <input type="email" id="email" name="email" placeholder="Correo electrónico">
+
+    <!-- Campo numérico para la edad -->
+    <input type="number" id="edad" name="edad" placeholder="Edad">
+
+    <!-- Botón de envío -->
+    <button type="submit">Enviar</button>
+</form>
+
+<!-- === CONTENEDOR DE LA BARRA DE PROGRESO === -->
+<div id="progressContainer">
+    <div id="progressBar"></div>
+</div>
+
+<!-- Mensaje que aparece cuando todo es correcto -->
+<p id="success">✅ Formulario enviado correctamente</p>
+
+<script>
+    $(function() {
+        /* === EXPRESIONES REGULARES PARA VALIDACIÓN === */
+        const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/;
+        const regexEmail = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+        const regexEdad = /^(1[89]|[2-9]\d)$/; // Edad entre 18 y 99
+
+
+
+        /* === FUNCIÓN GENERAL PARA VALIDAR CAMPOS === */
+        function validarCampo(campo, regex) {
+          const valor = campo.val().trim(); // obtiene el texto del input y elimina espacios
+
+          if (!regex.test(valor)) {
+            campo.addClass("error").removeClass("ok"); // marca error visualmente
+            return false; // el valor NO es válido
+          } else {
+            campo.addClass("ok").removeClass("error"); // marca como válido
+            return true; // el valor es válido
+        }
+
+
+
+        /* === ACTUALIZA LA BARRA DE PROGRESO SEGÚN LOS CAMPOS VÁLIDOS === */
+        function actualizarProgreso() {
+            let camposValidos = 0;
+            if (validarCampo($('#nombre'), regexNombre)) camposValidos++;
+            if (validarCampo($('#email'), regexEmail)) camposValidos++;
+            if (validarCampo($('#edad'), regexEdad)) camposValidos++;
+            const porcentaje = (camposValidos / 3) * 100;
+            $('#progressBar').css('width', porcentaje + '%');
+        }
+
+        /* === VALIDACIÓN EN TIEMPO REAL (EVENTO input) === */
+        $('#nombre, #email, #edad').on('input', function() {
+       // ESCRIBIR CÓDIGO
+        });
+
+        /* === ENVÍO DEL FORMULARIO === */
+        $('#formCurso').on('submit', function(e) {
+            e.preventDefault(); // Evita el envío por defecto
+
+            // Comprueba todos los campos una vez antes de enviar
+            const valido =
+                validarCampo($('#nombre'), regexNombre) &&
+                validarCampo($('#email'), regexEmail) &&
+                validarCampo($('#edad'), regexEdad);
+
+            if (valido) {
+                // Muestra mensaje de éxito
+                $('#success').fadeIn();
+
+                // Limpia el formulario y la barra
+                $(this).trigger('reset');
+                $('#progressBar').css('width', '0%');
+                $('input').removeClass('error');
+
+                // Oculta el mensaje tras 2.5 segundos
+                setTimeout(() => $('#success').fadeOut(), 2500);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
