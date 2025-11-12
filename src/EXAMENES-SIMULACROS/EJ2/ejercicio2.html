@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Ejercicio 2</title>
@@ -8,6 +8,7 @@
 <body>
 <h2>Lista de la compra</h2>
 <label>Nombre del producto: </label>
+<p id="errores"></p>
 <input type="text" id="producto">
 <button id="añadir">Añadir</button>
 <button id="contar">Contar productos</button>
@@ -20,17 +21,16 @@
 <div id="cantidadProductos"></div>
 <div id="borrado"></div>
 
-
-
-
 <script>
-  const cantidadProductos= $("#cantidadProductos");
-  const producto=$("#producto");
+
   const añadir=$("#añadir");
   const contar=$("#contar");
   const borrar=$("#borrar");
   const lista=$("#lista");
   const borrado=$("#borrado");
+  const cantidadProductos= $("#cantidadProductos");
+  const producto=$("#producto");
+  const errores=$("#errores");
 
   let arrayProductos=[];
 
@@ -51,18 +51,13 @@
     lista.empty();
     cantidadProductos.empty();
     borrado.text("Se ha borrado la lista de la compra");
-
-
   })
 
-
+  if(producto.val().length === 0){
+    errores.text("La lista está vacia")
+  }
 
 
 </script>
-
-
-
-
-
 </body>
 </html>
