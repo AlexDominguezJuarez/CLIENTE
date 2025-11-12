@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 2</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<h2>Lista de la compra</h2>
+<label>Nombre del producto: </label>
+<input type="text" id="producto">
+<button id="añadir">Añadir</button>
+<button id="contar">Contar productos</button>
+<button id="borrar">Borrar</button>
+
+<ul id="lista">
+
+</ul>
+
+<div id="cantidadProductos"></div>
+<div id="borrado"></div>
+
+
+
+
+<script>
+  const cantidadProductos= $("#cantidadProductos");
+  const producto=$("#producto");
+  const añadir=$("#añadir");
+  const contar=$("#contar");
+  const borrar=$("#borrar");
+  const lista=$("#lista");
+  const borrado=$("#borrado");
+
+  let arrayProductos=[];
+
+  añadir.on("click",function(){
+    lista.empty();
+    arrayProductos.push(producto.val());
+    arrayProductos.forEach((element,index) => {
+      lista.append($('<li>').text(arrayProductos[index]));
+    })
+  })
+
+  contar.on("click",function(){
+    cantidadProductos.text("La cantidad de productos añadidos a la lista es de: "+arrayProductos.length);
+
+  })
+
+  borrar.on("click",function(){
+    lista.empty();
+    cantidadProductos.empty();
+    borrado.text("Se ha borrado la lista de la compra");
+
+
+  })
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

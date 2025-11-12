@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 3</title>
+</head>
+<body>
+
+<h2>Lista de personas</h2>
+<h2>Pulsa aqui para comprobar</h2>
+<button onclick="comprobacion(nombres)">Comprobar</button>
+<p>Nombres del array: Ana , Miguel , Luis , Valentina , Juan , Carla , Pepe , Marcos , Sol</p>
+
+<div id="totalNombres"></div>
+<div id="nombresCortos"></div>
+<div id="nombresLargos"></div>
+
+<script>
+  const nombres = ["Ana" , "Miguel" , "Luis" , "Valentina" , "Juan" , "Carla", "Pepe", "Marcos", "Sol"];
+
+  const totalNombres= document.getElementById("totalNombres");
+  const nombresCortos = document.getElementById("nombresCortos");
+  const nombresLargos= document.getElementById("nombresLargos");
+
+  function comprobacion(nombres){
+    let arrayNombresLargos = [];
+    let arrayNombresCortos = [];
+    for(let i = 0; i < nombres.length; i++){
+      if(nombres[i].length>4){
+        arrayNombresLargos.push(nombres[i].toUpperCase());
+      }
+      if(nombres[i].length<=4){
+        arrayNombresCortos.push(nombres[i].toLowerCase());
+      }
+    }
+    totalNombres.innerText="Total de personas dentro del array: "+nombres.length;
+
+    nombresCortos.innerText="Nombres con 4 letras o menos : "+arrayNombresCortos ;
+
+    nombresLargos.innerText="Nombres con mas de 4 letras: "+ arrayNombresLargos ;
+
+  }
+</script>
+</body>
+</html>

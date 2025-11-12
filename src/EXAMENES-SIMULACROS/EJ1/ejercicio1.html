@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 1</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<h2>Comprobador de posiciones de array</h2>
+
+<p>Clica aquí para saber las posiciones del array que contienen el número 3</p>
+<button id="comprobacion" onclick="comprobar()">Comprobar</button>
+<p>Array: 4,0,3,4,7,3,5,8,1,8,8,0,2,3,1,2,5,7,3,2,5,1</p>
+
+
+<script>
+
+  function comprobar(){
+    let array = [4,0,3,4,7,3,5,8,1,8,8,0,2,3,1,2,5,7,3,2,5,1];
+
+    let posicionesContienen3 = [];
+    let valorArray;
+
+    for (let i = 0; i < array.length; i++) {
+      valorArray = array[i];
+      if (valorArray === 3) {
+        posicionesContienen3.push(i);
+      }
+    }
+
+    console.log("Las posiciones que contienen el numero 3 son: " + posicionesContienen3);
+
+    alert("Las posiciones que contienen el numero 3 son: " + posicionesContienen3);
+
+  }
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
