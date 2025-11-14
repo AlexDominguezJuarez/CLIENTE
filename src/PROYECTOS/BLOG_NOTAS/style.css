@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 2em auto;
+    padding: 1em;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+}
+
+#notaForm {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    margin-bottom: 1em;
+}
+
+#listaNotas {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.nota {
+    background: white;
+    padding: .8em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.nota h3 {
+    margin: 0 0 .3em 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+button.borrar {
+    background-color: #ff7070;
+    color: white;
+    border: none;
+    padding: .3em .6em;
+    border-radius: 5px;
+}
+
+button.borrar:hover {
+    background-color: #e04747;
+}
