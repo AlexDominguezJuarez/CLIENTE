@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Práctica: Tiempo en Almassora</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+      body { font-family: Arial, sans-serif; line-height: 1.5; }
+      code { background: #eee; padding: 2px 4px; }
+      .box { background: #f4f4f4; padding: 10px; border-left: 4px solid #0077cc; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Práctica API del Tiempo (Open-Meteo)</h1>
+
+<h2>Tiempo actual</h2>
+
+<button id="btnActual">Mostrar tiempo actual</button>
+<div id="resultadoActual" class="box"></div>
+
+<script>
+  $(function() {
+    $("#btnActual").click(function() {
+      fetch("https://api.open-meteo.com/v1/forecast?latitude=39.95&longitude=-0.05&current_weather=true")
+        .then(res => res.json())
+        .then(data => {
+          const cw = data.current_weather;
+          $("#resultadoActual").html(`
+                     <b>Tiempo actual en Almassora:</b><br>
+                     Temperatura: ${cw.temperature} ºC<br>
+                     Viento: ${cw.windspeed} km/h<br>
+                     Dirección del viento: ${cw.winddirection}º<br>
+                     Hora del dato: ${cw.time}
+                     `);
+
+        });
+    });
+  });
+</script>
+
+
+</body>
+</html>
