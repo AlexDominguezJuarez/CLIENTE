@@ -2,65 +2,173 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Práctica: Tiempo en Almassora</title>
+  <title>Tiempo en Almassora y alrededores</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-      body { font-family: Arial, sans-serif; line-height: 1.5; }
-      code { background: #eee; padding: 2px 4px; }
-      .box { background: #f4f4f4; padding: 10px; border-left: 4px solid #0077cc; margin: 10px 0; }
+      body {
+          font-family: Arial, sans-serif;
+          background: #e0f7fa;
+          margin: 0;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+
+      h1 {
+          color: #00796b;
+      }
+
+      #busqueda {
+          margin-bottom: 20px;
+          text-align: center;
+      }
+
+      select, button {
+          padding: 8px 12px;
+          font-size: 16px;
+          margin: 5px;
+          border-radius: 5px;
+          border: 1px solid #00796b;
+      }
+
+      button {
+          cursor: pointer;
+          background-color: #00796b;
+          color: white;
+          transition: background-color 0.3s;
+      }
+
+      button:hover {
+          background-color: #004d40;
+      }
+
+      #resultadoActual {
+          margin-top: 20px;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+      }
+
+      .tarjeta {
+          background-color: #ffffff;
+          border-radius: 12px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          padding: 20px;
+          text-align: center;
+          width: 300px;
+          transition: transform 0.3s;
+      }
+
+      .tarjeta:hover {
+          transform: translateY(-5px);
+      }
+
+      .tarjeta img {
+          width: 80px;
+          height: 80px;
+          margin-bottom: 10px;
+      }
+
+      .error {
+          color: red;
+          font-weight: bold;
+          font-size: 16px;
+      }
+
+      .dato {
+          margin: 5px 0;
+          font-size: 16px;
+      }
   </style>
 </head>
 <body>
 
 <h1>Práctica API del Tiempo (Open-Meteo)</h1>
 
-<h2>Tiempo actual</h2>
+<div id="busqueda">
+  <select id="ciudad">
+    <option value="almassora">Almassora</option>
+    <option value="castellon">Castellón</option>
+    <option value="valencia">Valencia</option>
+    <option value="benicassim">Benicàssim</option>
+  </select>
+  <button id="btnActual">Mostrar tiempo actual</button>
+</div>
 
-<select id="ciudad">
-  <option value="almassora">Almassora</option>
-  <option value="castellon">Castellon</option>
-  <option value="valencia">Valencia</option>
-  <option value="benicassim">Benicassim</option>
-
-</select>
-
-<button id="btnActual">Mostrar tiempo actual</button>
-<div id="resultadoActual" class="box"></div>
+<div id="resultadoActual"></div>
 
 <script>
   $(function() {
+    // Coordenadas y nombres bonitos de las ciudades
     const coords = {
-      almassora: { lat: 39.947843, lon: -0.062999 },
-      castellon: { lat: 39.986068, lon: -0.036024 },
-      valencia: { lat: 39.4561165, lon: -0.3545661 },
-      benicassim: { lat: 40.055278, lon: 0.064167 }
+      almassora: { lat: 39.947843, lon: -0.062999, nombre: "Almassora" },
+      castellon: { lat: 39.986068, lon: -0.036024, nombre: "Castellón" },
+      valencia: { lat: 39.4561165, lon: -0.3545661, nombre: "Valencia" },
+      benicassim: { lat: 40.055278, lon: 0.064167, nombre: "Benicàssim" }
+    };
+
+    // Función para obtener icono según weathercode de Open-Meteo
+    function getIcon(weathercode) {
+      const mapping = {
+        0: "☀️",    // Clear sky
+        1: "🌤️",  // Mainly clear
+        2: "⛅",    // Partly cloudy
+        3: "☁️",    // Overcast
+        45: "🌫️",  // Fog
+        48: "🌫️",  // Depositing rime fog
+        51: "🌦️",  // Drizzle light
+        53: "🌦️",  // Drizzle moderate
+        55: "🌧️",  // Drizzle dense
+        61: "🌧️",  // Rain slight
+        63: "🌧️",  // Rain moderate
+        65: "🌧️",  // Rain heavy
+        71: "🌨️",  // Snow slight
+        73: "🌨️",  // Snow moderate
+        75: "🌨️",  // Snow heavy
+        80: "🌦️",  // Rain showers
+        81: "🌦️",  // Rain showers moderate
+        82: "⛈️",  // Rain showers violent
+        95: "⛈️",  // Thunderstorm
+        99: "⛈️"   // Thunderstorm with hail
+      };
+      return mapping[weathercode] || "❓";
     }
 
-
-    $("#btnActual").click(function() {
-
-      const ciudadSelecionada=$("#ciudad").val();
-      const lat=coords[ciudadSelecionada].lat;
-      const lon=coords[ciudadSelecionada].lon;
-
+    // Evento click del botón
+    $("#btnActual").click(async function() {
+      const ciudadKey = $("#ciudad").val();
+      const { lat, lon, nombre } = coords[ciudadKey];
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          const cw = data.current_weather;
-          $("#resultadoActual").html(`
-                     <b>Tiempo actual en ${ciudadSelecionada}:</b><br>
-                     Temperatura: ${cw.temperature} ºC<br>
-                     Viento: ${cw.windspeed} km/h<br>
-                     Dirección del viento: ${cw.winddirection}º<br>
-                     Hora del dato: ${cw.time}
-                     `);
 
-        });
+      $("#resultadoActual").html(""); // limpiar
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Error al obtener los datos del tiempo");
+
+        const data = await res.json();
+        const cw = data.current_weather;
+
+        const icono = getIcon(cw.weathercode);
+
+        $("#resultadoActual").html(`
+            <div class="tarjeta">
+              <div style="font-size:50px">${icono}</div>
+              <h2>${nombre}</h2>
+              <div class="dato"><strong>Temperatura:</strong> ${cw.temperature} ºC</div>
+              <div class="dato"><strong>Viento:</strong> ${cw.windspeed} km/h</div>
+              <div class="dato"><strong>Dirección del viento:</strong> ${cw.winddirection}º</div>
+              <div class="dato"><strong>Hora del dato:</strong> ${cw.time}</div>
+            </div>
+          `);
+
+      } catch (err) {
+        $("#resultadoActual").html(`<div class="error">${err.message}</div>`);
+      }
     });
   });
 </script>
-
 
 </body>
 </html>

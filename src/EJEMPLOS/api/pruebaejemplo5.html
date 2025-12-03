@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<button id="btn">Nuevo usuario</button>
+<img id="foto" width="150">
+<p id="nombre"></p>
+
+
+<script>
+
+  $("#btn").on("click", (async function () {
+    const res = await fetch("https://randomuser.me/api/");
+    const data = await res.json();
+
+    const user = data.results[0];
+
+    $("#foto").attr("src", user.picture.large);
+    $("#nombre").text(`${user.name.first} ${user.name.last}`);
+  }));
+
+</script>
+  </body>
+</html>

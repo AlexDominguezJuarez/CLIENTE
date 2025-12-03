@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio44</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<label>Introduce el nombre del pokemon a buscar</label>
+<input type="text" id="nombre">
+<button id="buscar" onclick="searchPokemon()">Buscar</button>
+
+<div id="resultado"></div>
+
+<script>
+  const resultado = document.getElementById('resultado');
+  const boton = document.getElementById('buscar');
+  const input = document.getElementById('nombre');
+
+  async function searchPokemon(){
+    const nombre = input.value.toLowerCase().trim();
+
+    try {
+      const res=await fetch(`https://pokeapi.co/api/v2/pokemon/${nombre}`);
+
+      if (!res.ok) {
+        // Si la respuesta no es 200, lanzamos error
+        throw new Error("Pokémon no encontrado");
+      }
+
+      const data = await res.json();
+
+      const nombreMayus = data.name.toUpperCase();
+      const tipos = data.types.map(t => t.type.name).join(", ");
+      const alturaM = data.height / 10; // metros
+      const pesoKg = data.weight / 10;  // kilogramos
+      const imagen = data.sprites.other["official-artwork"].front_default;
+
+      resultado.innerHTML = `
+        <div class="pokemon-card">
+          <img src="${imagen}" alt="${nombreMayus}">
+          <h2>${nombreMayus}</h2>
+          <p><strong>Tipo/s:</strong> ${tipos}</p>
+          <p><strong>Altura:</strong> ${alturaM} m</p>
+          <p><strong>Peso:</strong> ${pesoKg} kg</p>
+        </div>
+      `;
+
+    }catch(error){
+      alert(error);
+    }
+
+  }
+
+</script>
+
+</body>
+</html>
