@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Suscripción</title>
+  <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      input { display: block; margin-bottom: 5px; padding: 5px; width: 300px; }
+      label { margin-top: 10px; display: block; }
+      .error { color: red; font-size: 0.9em; display: none; }
+      button:disabled { background-color: #ccc; cursor: not-allowed; }
+      .ok { border: 2px solid green; }
+      .fail { border: 2px solid red; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<h2>Formulario de Suscripción</h2>
+<p id="saludo"></p>
+
+<form id="form">
+  <label>Nombre</label>
+  <input id="nombre" type="text" data-regexp="^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$">
+  <small class="error">Nombre inválido</small>
+
+  <label>Email</label>
+  <input id="email" type="text" data-regexp="^[\\w.-]+@[\\w.-]+\\.\\w{2,}$">
+  <small class="error">Email inválido</small>
+
+  <label>Teléfono (opcional)</label>
+  <input id="telefono" type="text" data-regexp="^[6789]\\d{8}$" data-optional="true">
+  <small class="error">Teléfono inválido</small>
+
+  <label>
+    <input type="checkbox" id="condiciones"> Acepto las condiciones
+  </label>
+  <small class="error" id="errorCondiciones">Debes aceptar las condiciones</small>
+
+  <button id="enviar" disabled>Enviar</button>
+</form>
+
+<p id="mensajeFinal" style="font-weight: bold; margin-top: 20px;"></p>
+
+<script>
+  $(document).ready(function(){
+
+    const campos = $("#nombre, #email, #telefono");
+    const btn = $("#enviar");
+    const saludo = $("#saludo");
+
+    if(localStorage.getItem("nombre")){
+      saludo.text("Hola de nuevo, " + localStorage.getItem("nombre") + " 👋");
+      $("#nombre").val(localStorage.getItem("nombre"));
+    }
+
+    function validarCampo(campo){
+      const valor = campo.val().trim();
+      const regexp = new RegExp(campo.data("regexp"));
+      const esOpcional = campo.data("optional");
+      const error = campo.next(".error");
+
+      if(esOpcional && valor === ""){
+        campo.removeClass("fail").addClass("ok");
+        error.hide();
+        return true;
+      }
+
+      if(regexp.test(valor)){
+        campo.removeClass("fail").addClass("ok");
+        error.hide();
+        localStorage.setItem(campo.attr("id"), valor);
+        return true;
+      } else {
+        campo.removeClass("ok").addClass("fail");
+        error.show();
+        localStorage.removeItem(campo.attr("id"));
+        return false;
+      }
+    }
+
+    function validarTodo(){
+      let valido = true;
+
+      campos.each(function(){
+        if(!validarCampo($(this))) valido = false;
+      });
+
+      if(!$("#condiciones").is(':checked')){
+        $("#errorCondiciones").show();
+        valido = false;
+      } else {
+        $("#errorCondiciones").hide();
+      }
+
+      btn.prop("disabled", !valido);
+    }
+
+    campos.on("input", function(){ validarCampo($(this)); validarTodo(); });
+    $("#condiciones").on("change", validarTodo);
+
+    campos.each(function(){ validarCampo($(this)); });
+    validarTodo();
+
+    $("#form").on("submit", function(e){
+      e.preventDefault();
+      $("#mensajeFinal").text("Suscripción completada correctamente.");
+    });
+
+  });
+
+  /*
+  window.addEventListener("DOMContentLoaded", () => {
+saludo.textContent = "Hola de nuevo, " + localStorage.getItem("nombre") + " 👋";
+document.getElementById("nombre").value = localStorage.getItem("nombre");
+}
+
+
+function validarCampo(campo){
+const valor = campo.value.trim();
+const regexp = new RegExp(campo.dataset.regexp);
+const esOpcional = campo.dataset.optional !== undefined;
+const error = campo.nextElementSibling;
+
+
+if(esOpcional && valor === ""){
+campo.classList.remove("fail");
+campo.classList.add("ok");
+error.style.display = "none";
+return true;
+}
+
+
+if(regexp.test(valor)){
+campo.classList.remove("fail");
+campo.classList.add("ok");
+error.style.display = "none";
+localStorage.setItem(campo.id, valor);
+return true;
+} else {
+campo.classList.remove("ok");
+campo.classList.add("fail");
+error.style.display = "block";
+localStorage.removeItem(campo.id);
+return false;
+}
+}
+
+
+function validarTodo(){
+let valido = true;
+
+
+campos.forEach(campo => {
+if(!validarCampo(campo)) valido = false;
+});
+
+
+const condiciones = document.getElementById("condiciones");
+const errorCond = document.getElementById("errorCondiciones");
+
+
+if(!condiciones.checked){
+errorCond.style.display = "block";
+valido = false;
+} else {
+errorCond.style.display = "none";
+}
+
+
+btn.disabled = !valido;
+}
+
+
+campos.forEach(campo => {
+campo.addEventListener("input", () => {
+validarCampo(campo);
+validarTodo();
+});
+});
+
+
+document.getElementById("condiciones").addEventListener("change", validarTodo);
+
+
+campos.forEach(campo => validarCampo(campo));
+validarTodo();
+
+
+document.getElementById("form").addEventListener("submit", e => {
+e.preventDefault();
+document.getElementById("mensajeFinal").textContent = "Suscripción completada correctamente.";
+});
+});
+   */
+</script>
+
+</body>
+</html>

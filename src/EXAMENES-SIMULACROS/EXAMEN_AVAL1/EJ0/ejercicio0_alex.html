@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio0</title>
+</head>
+<body>
+
+
+<label>Introduce el nombre del pais que quieras buscar</label>
+<input type="text" id="pais">
+<button onclick="buscar()">Buscar</button>
+
+<div id="informacion"></div>
+
+
+<script>
+  const informacion = document.getElementById('informacion');
+  const pais = document.getElementById('pais');
+
+async function buscar() {
+  try {
+    const response = await fetch(`https://restcountries.com/v3.1/name/${pais.value}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Si la respuesta no es 200, lanzamos error
+      throw new Error("Pais no encontrado");
+    }
+
+    const img=data.flags;
+    const nombre=data.name;
+    const capital=data.capital;
+    const poblacion=data.poblation;
+
+
+    informacion.innerHTML=`
+    <img src="${img}"</img>
+    <p>${nombre}</p>
+    <p>${capital}</p>
+    <p>${poblacion}</p>`
+
+  }catch(err) {
+    alert(err);
+  }
+
+}
+</script>
+
+
+</body>
+</html>

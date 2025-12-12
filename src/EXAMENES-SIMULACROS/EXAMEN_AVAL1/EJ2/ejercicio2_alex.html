@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio2</title>
+</head>
+<body>
+<div id="tituloLibros"></div>
+
+<div id="totalDePaginas"></div>
+
+<span id="libroMasPag"></span>
+
+<span id="set"></span>
+
+
+<span id="comprobacionAutor"></span>
+
+<span id="numeroLibrosNoDupl"></span>
+
+
+<span id="libroInformacion"></span>
+
+<button onclick="ejercicio2()">Ejecutar ejercicio</button>
+
+
+
+
+
+
+<script>
+
+
+  const libros = [
+    { titulo: "El Quijote", autor: "Cervantes", paginas: 863, genero: "Novela" },
+    { titulo: "1984", autor: "George Orwell", paginas: 328, genero: "Distopía" },
+    { titulo: "Fundación", autor: "Isaac Asimov", paginas: 255, genero: "Ciencia Ficción" },
+    { titulo: "Rebelión en la granja", autor: "George Orwell", paginas: 112, genero: "Satira" },
+    { titulo: "Dune", autor: "Frank Herbert", paginas: 540, genero: "Ciencia Ficción" },
+    { titulo: "El Quijote", autor: "Cervantes", paginas: 863, genero: "Novela" } // duplicado
+  ];
+
+
+  function ejercicio2(){
+
+
+    const tituloLibros=document.getElementById("tituloLibros");
+    for (let i = 0; i < libros.length; i++) {
+      let contenido=libros[i].titulo
+      tituloLibros.appendChild(<p>contenido</p>);
+    }
+
+    const totalDePaginas = document.getElementById("totalDePaginas");
+    let numeroPag=0;
+    for (let i = 0; i < libros.length; i++) {
+      numeroPag=libros[i].paginas.value+numeroPag;
+    }
+    totalDePaginas.innerText = "El numero de paginas totales es: "+numeroPag;
+
+
+    const libroMasPag = document.getElementById("libroMasPag");
+    let titMasPag=null;
+    let numPag=0;
+    for (let i = 0; i < libros.length; i++) {
+      if(libros[i].paginas.value>numPag){
+        numPag=libros[i].paginas.value;
+        titMasPag=libros[i].titulo.value;
+      }
+    }
+
+    libroMasPag.innerText=`El libro con mas paginas es ${titMasPag} con ${numPag} paginas`;
+
+    let setLibros=new Set();
+    for (let i = 0; i < libros.length; i++) {
+      setLibros.add(libros[i]);
+    }
+    console.log(setLibros);
+
+
+
+
+
+
+
+  }
+
+
+
+
+</script>
+
+</body>
+</html>

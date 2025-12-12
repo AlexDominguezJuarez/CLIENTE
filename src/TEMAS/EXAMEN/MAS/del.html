@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarjetas Interactivas</title>
+  <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      .contenedor-inputs { margin-bottom: 20px; display: flex; gap: 10px; }
+      .tarjeta {
+          border: 1px solid #ccc;
+          padding: 15px;
+          margin-bottom: 10px;
+          border-radius: 8px;
+      }
+      .tarjeta.resaltada {
+          border-color: gold;
+          background-color: #fff8dc;
+      }
+      button { margin-right: 5px; }
+  </style>
+</head>
+<body>
+<h1>Gestor de Productos</h1>
+
+<div class="contenedor-inputs">
+  <input type="text" id="nombre" placeholder="Nombre del producto" />
+  <input type="number" id="precio" placeholder="Precio" />
+  <button id="agregar">Agregar producto</button>
+</div>
+
+<div id="productos"></div>
+
+<script>
+  const productos = document.getElementById('productos');
+  const btnAgregar = document.getElementById('agregar');
+
+  btnAgregar.addEventListener('click', () => {
+    const nombre = document.getElementById('nombre').value.trim();
+    const precio = parseFloat(document.getElementById('precio').value);
+
+    if (!nombre) {
+      alert('El nombre no puede estar vacío');
+      return;
+    }
+    if (isNaN(precio) || precio <= 0) {
+      alert('El precio debe ser mayor que cero');
+      return;
+    }
+
+    const tarjeta = document.createElement('div');
+    tarjeta.classList.add('tarjeta');
+    tarjeta.innerHTML = `
+        <h3>${nombre}</h3>
+        <p>Precio: ${precio} €</p>
+        <button class="destacar">Destacar</button>
+        <button class="borrar">Borrar</button>
+      `;
+
+    productos.appendChild(tarjeta);
+    document.getElementById('nombre').value = '';
+    document.getElementById('precio').value = '';
+  });
+
+  productos.addEventListener('click', (e) => {
+    const boton = e.target;
+    if (boton.classList.contains('destacar')) {
+      boton.closest('.tarjeta').classList.toggle('resaltada');
+    }
+    if (boton.classList.contains('borrar')) {
+      boton.closest('.tarjeta').remove();
+    }
+  });
+
+
+  /*
+  const productos = document.getElementById("productos");
+const btnAgregar = document.getElementById("agregar");
+
+btnAgregar.addEventListener("click", () => {
+  const nombre = document.getElementById("nombre").value.trim();
+  const precio = parseFloat(document.getElementById("precio").value);
+
+  if (!nombre) {
+    alert("El nombre no puede estar vacío");
+    return;
+  }
+  if (isNaN(precio) || precio <= 0) {
+    alert("El precio debe ser mayor que cero");
+    return;
+  }
+
+  const tarjeta = document.createElement("div");
+  tarjeta.classList.add("tarjeta");
+  tarjeta.innerHTML = `
+    <h3>${nombre}</h3>
+    <p>Precio: ${precio} €</p>
+    <button class="destacar">Destacar</button>
+    <button class="borrar">Borrar</button>
+  `;
+
+  productos.appendChild(tarjeta);
+
+  document.getElementById("nombre").value = "";
+  document.getElementById("precio").value = "";
+});
+
+// Delegación de eventos
+productos.addEventListener("click", (e) => {
+  const boton = e.target;
+
+  if (boton.classList.contains("destacar")) {
+    boton.closest(".tarjeta").classList.toggle("resaltada");
+  }
+
+  if (boton.classList.contains("borrar")) {
+    boton.closest(".tarjeta").remove();
+  }
+});
+   */
+</script>
+</body>
+</html>

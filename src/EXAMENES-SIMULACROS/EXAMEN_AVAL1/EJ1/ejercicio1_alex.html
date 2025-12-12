@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio1</title>
+  <style>
+    table, td, th {
+        border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <td id="celda0"></td>
+    <td id="celda1"></td>
+    <td id="celda2"></td>
+  </tr>
+  <tr>
+    <td id="celda3"></td>
+    <td id="celda4"></td>
+    <td id="celda5"></td>
+  </tr>
+  <tr>
+    <td id="celda6"></td>
+    <td id="celda7"></td>
+    <td id="celda8"></td>
+  </tr>
+</table>
+
+<button onclick="ejecutar()">Ejecutar ejercicio</button>
+
+
+<script>
+
+  function getRandomId() {
+    return Math.floor(Math.random() * 898) + 1;
+  }
+
+  async function ejecutar() {
+    try{
+      for (let i = 0; i < 9; i++){
+
+        let numeroRandom=getRandomId();
+
+        //debugeo
+        console.log("aaaa")
+
+        const res=await fetch(`https://pokeapi.co/api/v2/pokemon/${numeroRandom}`);
+
+
+        if (!res.ok) {
+          // Si la respuesta no es 200, lanzamos error
+          throw new Error("Pokémon no encontrado");
+        }
+
+        //debugeo
+        console.log("aaaa")
+
+        const data = await res.json();
+
+        const imagen = data.sprites.other["official-artwork"].front_default;
+
+        document.getElementById(`celda${i}`).innerHTML = `<td><img src="${imagen}"></td>`;
+
+
+      }
+    } catch (err) {
+      alert("Error al cargar");
+    }
+
+  }
+
+
+
+
+
+</script>
+
+</body>
+</html>

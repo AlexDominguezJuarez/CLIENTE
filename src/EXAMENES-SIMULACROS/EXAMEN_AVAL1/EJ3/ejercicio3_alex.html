@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio3</title>
+</head>
+
+<style>
+  .error{
+      color: black;
+      background-color: red;
+  }
+</style>
+<body>
+
+<label>Nombre del alumno</label>
+<input type="text" name="nombre" id="nombre">
+<br>
+<span class="error" id="error-nombre"></span>
+<br>
+
+<label>Nota del alumno</label>
+<input type="number" name="nota" id="nota">
+<br>
+<span class="error" id="error-nota"></span>
+<br>
+
+<button onclick="añadir()">Añadir</button>
+
+<ul id="lista">
+
+</ul>
+
+<script>
+  const lista =document.getElementById('li');
+
+  const nombre = document.getElementById('nombre');
+  const nota = document.getElementById('nota');
+
+  const errorNota=document.getElementById('error-nota');
+  const errorNombre=document.getElementById('error-nombre');
+
+
+  function validar(nombre, nota){
+
+    let comprobacion=true;
+
+/*
+//no valida correctamente
+    const regexNombre = new RegExp(/^[A-Za-zÁ-Úá-úÑñ ]{2,30}$/);
+    if (!regexNombre.test(nombre)){
+      errorNombre.textContent = "Nombre no valido";
+      errorNombre.classList.add('error');
+      errorNombre.classList.remove('correcto');
+
+      comprobacion= false;
+    }
+
+
+
+//no valida correctamente
+    const regexNota=new RegExp(/^(10(\.0+)?|[0-9](\.[0-9]+)?)$/);
+    if (!regexNota.test(nota)){
+      errorNota.textContent = "Nota no valida";
+      errorNota.classList.add('error');
+      errorNota.classList.remove('correcto');
+      comprobacion= false;
+    }
+
+*/
+    if (comprobacion===true){
+      errorNombre.classList.add('correcto');
+      errorNombre.classList.remove('error');
+      errorNota.classList.add('correcto');
+      errorNota.classList.remove('error');
+      return true;
+    }else{
+      return false;
+    }
+
+
+
+
+
+  }
+
+
+  function añadir() {
+
+    let comprobacion = validar(nombre, nota);
+
+    let notaAAñadir = {
+      nombre: nombre.value,
+      nota: nota.value
+    };
+
+
+    if (comprobacion === false) {
+      alert("No se ha podido añadir al alumno, revisa los campos")
+
+    } else {
+      notas.forEach((lista, index) => {
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+      <h3>${notaAAñadir.nombre}</h3>
+      <p>${notaAAñadir.nota}</p>
+      <button class="borrar" >Borrar</button>
+    `;
+
+        lista.appendChild(div);
+
+        alert("Alumno añadido");
+
+      });
+    }
+  }
+
+
+
+
+  function eliminar(){
+
+  }
+
+  function cargarLocalStorage(){
+
+  }
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
