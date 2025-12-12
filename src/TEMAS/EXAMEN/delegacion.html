@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solución - Tarjetas con Delegación de Eventos</title>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .tarjeta {
+            border: 1px solid #aaa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            width: 260px;
+        }
+
+        .resaltada {
+            background-color: #fff9c4;
+            border-color: #e0b300;
+        }
+
+        #productos {
+            margin-top: 20px;
+        }
+
+        .botones {
+            margin-top: 10px;
+        }
+
+        button {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Gestor de Productos</h2>
+
+<label>Nombre:</label>
+<input type="text" id="nombre">
+<label>Precio (€):</label>
+<input type="number" id="precio" min="0" step="0.01">
+
+<button id="agregar">Agregar producto</button>
+
+<div id="productos"></div>
+
+<script>
+    $(document).ready(function () {
+
+        // -------------------------
+        // AGREGAR PRODUCTO
+        // -------------------------
+        $("#agregar").on("click", function () {
+            const nombre = $("#nombre").val().trim();
+            const precio = parseFloat($("#precio").val());
+
+            // Validaciones
+            if (!nombre) {
+                alert("El nombre no puede estar vacío.");
+                return;
+            }
+
+            if (isNaN(precio) || precio <= 0) {
+                alert("El precio debe ser mayor que cero.");
+                return;
+            }
+
+            // Crear tarjeta dinámica
+            const tarjeta = `
+                    <div class="tarjeta">
+                        <h3>${nombre}</h3>
+                        <p>Precio: ${precio.toFixed(2)} €</p>
+                        <div class="botones">
+                            <button class="destacar">Destacar</button>
+                            <button class="borrar">Borrar</button>
+                        </div>
+                    </div>
+                `;
+
+            $("#productos").append(tarjeta);
+
+            // Limpiar campos
+            $("#nombre").val("");
+            $("#precio").val("");
+        });
+
+        // -----------------------------------
+        // DELEGACIÓN DE EVENTOS
+        // -----------------------------------
+
+        // Delegación para el botón DESTACAR
+        $("#productos").on("click", ".destacar", function () {
+            $(this).closest(".tarjeta").toggleClass("resaltada");
+        });
+
+        // Delegación para el botón BORRAR
+        $("#productos").on("click", ".borrar", function () {
+            $(this).closest(".tarjeta").remove();
+        });
+
+
+    });
+
+
+    /*
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // -------------------------
+    // AGREGAR PRODUCTO
+    // -------------------------
+    const btnAgregar = document.getElementById("agregar");
+    const contenedorProductos = document.getElementById("productos");
+
+    btnAgregar.addEventListener("click", function () {
+        const nombre = document.getElementById("nombre").value.trim();
+        const precio = parseFloat(document.getElementById("precio").value);
+
+        // Validaciones
+        if (!nombre) {
+            alert("El nombre no puede estar vacío.");
+            return;
+        }
+
+        if (isNaN(precio) || precio <= 0) {
+            alert("El precio debe ser mayor que cero.");
+            return;
+        }
+
+        // Crear tarjeta dinámica
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta");
+
+        tarjeta.innerHTML = `
+            <h3>${nombre}</h3>
+            <p>Precio: ${precio.toFixed(2)} €</p>
+            <div class="botones">
+                <button class="destacar">Destacar</button>
+                <button class="borrar">Borrar</button>
+            </div>
+        `;
+
+        contenedorProductos.appendChild(tarjeta);
+
+        // Limpiar campos
+        document.getElementById("nombre").value = "";
+        document.getElementById("precio").value = "";
+    });
+
+    // -----------------------------------
+    // DELEGACIÓN DE EVENTOS
+    // -----------------------------------
+
+    contenedorProductos.addEventListener("click", function (e) {
+
+        // BOTÓN DESTACAR
+        if (e.target.classList.contains("destacar")) {
+            const tarjeta = e.target.closest(".tarjeta");
+            tarjeta.classList.toggle("resaltada");
+        }
+
+        // BOTÓN BORRAR
+        if (e.target.classList.contains("borrar")) {
+            const tarjeta = e.target.closest(".tarjeta");
+            tarjeta.remove();
+        }
+
+    });
+
+});
+
+     */
+</script>
+
+</body>
+</html>

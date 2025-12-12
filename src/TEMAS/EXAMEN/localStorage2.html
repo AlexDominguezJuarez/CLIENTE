@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Favoritos con localStorage</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #favorito {
+            width: 200px;
+            padding: 4px;
+        }
+
+        #agregar {
+            padding: 4px 10px;
+        }
+
+        #lista-favoritos {
+            margin-top: 20px;
+        }
+
+        .favorito {
+            border: 1px solid #aaa;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 250px;
+        }
+
+        .favorito button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Mis Favoritos</h2>
+
+<input type="text" id="favorito" placeholder="Nombre del favorito">
+<button id="agregar">Añadir a favoritos</button>
+
+<div id="lista-favoritos"></div>
+
+<script>
+    $(document).ready(function() {
+
+        // Función para cargar favoritos desde localStorage
+        function cargarFavoritos() {
+            const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            $("#lista-favoritos").empty();
+            favoritos.forEach(function(item) {
+                agregarFavoritoDOM(item);
+            });
+        }
+
+        // Función para agregar favorito al DOM
+        function agregarFavoritoDOM(nombre) {
+            const html = `
+                    <div class="favorito">
+                        <span>${nombre}</span>
+                        <button class="eliminar">Eliminar</button>
+                    </div>
+                `;
+            $("#lista-favoritos").append(html);
+        }
+
+        // Evento para agregar favorito
+        $("#agregar").on("click", function() {
+            const nombre = $("#favorito").val().trim();
+            if (!nombre) {
+                alert("El nombre no puede estar vacío.");
+                return;
+            }
+
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+            // Evitar duplicados
+            if (favoritos.includes(nombre)) {
+                alert("Este favorito ya está agregado.");
+                return;
+            }
+
+            favoritos.push(nombre);
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+            agregarFavoritoDOM(nombre);
+
+            // Limpiar input
+            $("#favorito").val("");
+        });
+
+        // Delegación de eventos para eliminar
+        $("#lista-favoritos").on("click", ".eliminar", function() {
+            const nombre = $(this).siblings("span").text();
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            favoritos = favoritos.filter(item => item !== nombre);
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+            $(this).closest(".favorito").remove();
+        });
+
+        // Cargar favoritos al inicio
+        cargarFavoritos();
+
+    });
+    /*
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // -----------------------------------
+    // Cargar favoritos desde localStorage
+    // -----------------------------------
+    function cargarFavoritos() {
+        const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+        const lista = document.getElementById("lista-favoritos");
+
+        lista.innerHTML = "";
+
+        favoritos.forEach(function (item) {
+            agregarFavoritoDOM(item);
+        });
+    }
+
+    // -----------------------------------
+    // Agregar favorito al DOM
+    // -----------------------------------
+    function agregarFavoritoDOM(nombre) {
+        const lista = document.getElementById("lista-favoritos");
+
+        const div = document.createElement("div");
+        div.classList.add("favorito");
+
+        div.innerHTML = `
+            <span>${nombre}</span>
+            <button class="eliminar">Eliminar</button>
+        `;
+
+        lista.appendChild(div);
+    }
+
+    // -----------------------------------
+    // Evento para agregar nuevo favorito
+    // -----------------------------------
+    document.getElementById("agregar").addEventListener("click", function () {
+        const input = document.getElementById("favorito");
+        const nombre = input.value.trim();
+
+        if (!nombre) {
+            alert("El nombre no puede estar vacío.");
+            return;
+        }
+
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+        // Evitar duplicados
+        if (favoritos.includes(nombre)) {
+            alert("Este favorito ya está agregado.");
+            return;
+        }
+
+        favoritos.push(nombre);
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+        agregarFavoritoDOM(nombre);
+
+        // Limpiar campo
+        input.value = "";
+    });
+
+    // -----------------------------------
+    // Delegación de eventos para eliminar
+    // -----------------------------------
+    document.getElementById("lista-favoritos").addEventListener("click", function (e) {
+
+        if (e.target.classList.contains("eliminar")) {
+            const favoritoDiv = e.target.closest(".favorito");
+            const nombre = favoritoDiv.querySelector("span").textContent;
+
+            let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+            favoritos = favoritos.filter(item => item !== nombre);
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+            favoritoDiv.remove();
+        }
+    });
+
+    // -----------------------------------
+    // Cargar favoritos al inicio
+    // -----------------------------------
+    cargarFavoritos();
+
+});
+
+     */
+</script>
+
+</body>
+</html>

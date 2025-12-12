@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario con Validación</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input { display: block; margin-bottom: 10px; padding: 5px; width: 300px; }
+        .error { color: red; font-size: 0.9em; display: none; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<h2>Formulario de Suscripción</h2>
+<form id="suscripcion">
+    <label>Nombre:</label>
+    <input type="text" id="nombre" data-regex="^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]{2,50}$" placeholder="Tu nombre">
+    <span class="error" id="error-nombre">Nombre inválido</span>
+
+    <label>Email:</label>
+    <input type="email" id="email" data-regex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$" placeholder="correo@ejemplo.com">
+    <span class="error" id="error-email">Email inválido</span>
+
+    <label>Teléfono (opcional):</label>
+    <input type="text" id="telefono" data-regex="^\+?\d{7,15}$" placeholder="Opcional">
+    <span class="error" id="error-telefono">Teléfono inválido</span>
+
+    <button type="submit" id="enviar" disabled>Enviar</button>
+</form>
+
+<script>
+    $(document).ready(function() {
+        // Cargar valores del localStorage
+        ['nombre', 'email', 'telefono'].forEach(function(id) {
+            if(localStorage.getItem(id)) {
+                $('#' + id).val(localStorage.getItem(id));
+            }
+        });
+
+        // Función de validación
+        function validarCampo(input) {
+            const regex = new RegExp(input.data('regex'));
+            const val = input.val().trim();
+            const isValid = val === '' && input.attr('id') === 'telefono' ? true : regex.test(val);
+            const errorSpan = $('#error-' + input.attr('id'));
+
+            if(!isValid) {
+                errorSpan.show();
+            } else {
+                errorSpan.hide();
+            }
+            return isValid;
+        }
+
+        // Validación en tiempo real
+        $('#suscripcion input').on('input', function() {
+            const campoValido = validarCampo($(this));
+
+            // Guardar en localStorage si es válido
+            if(campoValido) {
+                localStorage.setItem($(this).attr('id'), $(this).val().trim());
+            } else {
+                localStorage.removeItem($(this).attr('id'));
+            }
+
+            // Comprobar si todos los campos obligatorios son válidos
+            const nombreValido = validarCampo($('#nombre'));
+            const emailValido = validarCampo($('#email'));
+            $('#enviar').prop('disabled', !(nombreValido && emailValido));
+        });
+
+        // Evitar envío real y mostrar alerta
+        $('#suscripcion').on('submit', function(e) {
+            e.preventDefault();
+            alert('Formulario enviado con éxito!');
+        });
+
+        // Validación inicial si hay valores en localStorage
+        $('#suscripcion input').each(function() {
+            validarCampo($(this));
+        });
+        const nombreValido = validarCampo($('#nombre'));
+        const emailValido = validarCampo($('#email'));
+        $('#enviar').prop('disabled', !(nombreValido && emailValido));
+    });
+
+
+    /*
+    document.addEventListener("DOMContentLoaded", function () {
+
+    // Cargar valores del localStorage
+    ["nombre", "email", "telefono"].forEach(function (id) {
+        const stored = localStorage.getItem(id);
+        if (stored) {
+            const el = document.getElementById(id);
+            if (el) el.value = stored;
+        }
+    });
+
+    // Función de validación
+    function validarCampo(input) {
+        const regex = new RegExp(input.dataset.regex);
+        const val = input.value.trim();
+        const isValid = (val === "" && input.id === "telefono") ? true : regex.test(val);
+        const errorSpan = document.getElementById("error-" + input.id);
+
+        if (!isValid) {
+            errorSpan.style.display = "inline";
+        } else {
+            errorSpan.style.display = "none";
+        }
+        return isValid;
+    }
+
+    const form = document.getElementById("suscripcion");
+    const enviarBtn = document.getElementById("enviar");
+
+    // Validación en tiempo real
+    form.querySelectorAll("input").forEach(function (input) {
+        input.addEventListener("input", function () {
+            const campoValido = validarCampo(input);
+
+            // Guardar o eliminar del localStorage
+            if (campoValido) {
+                localStorage.setItem(input.id, input.value.trim());
+            } else {
+                localStorage.removeItem(input.id);
+            }
+
+            // Comprobar campos obligatorios
+            const nombreValido = validarCampo(document.getElementById("nombre"));
+            const emailValido = validarCampo(document.getElementById("email"));
+            enviarBtn.disabled = !(nombreValido && emailValido);
+        });
+    });
+
+    // Evitar envío real
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        alert("Formulario enviado con éxito!");
+    });
+
+    // Validación inicial
+    form.querySelectorAll("input").forEach(function (input) {
+        validarCampo(input);
+    });
+    const nombreValido = validarCampo(document.getElementById("nombre"));
+    const emailValido = validarCampo(document.getElementById("email"));
+    enviarBtn.disabled = !(nombreValido && emailValido);
+
+});
+
+
+
+     */
+</script>
+
+</body>
+</html>

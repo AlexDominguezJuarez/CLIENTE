@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de series/peliculas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<h1>Añadir serie:</h1>
+
+<form >
+  <label>Nombre:</label>
+  <input type="text" id="nombre" class="input">
+  <br>
+
+  <label>Genero:</label>
+  <input type="text" id="genero" class="input">
+  <br>
+
+  <label>Año:</label>
+  <input type="text" id="año" class="input">
+  <br>
+
+  <label>Prioridad:</label>
+  <select id="prioridad">
+    <option value="Alta">Alta</option>
+    <option value="Media">Media</option>
+    <option value="Baja">Baja</option>
+  </select>
+  <br>
+
+  <button id="boton" onclick="añadirSerie(event)">Guardar</button>
+
+</form>
+
+
+<h2>Listado de series/peliculas</h2>
+
+<label>Filtrar por género:</label>
+<select id="filtroGenero" onchange="filtrar()">
+  <option value="todos">Todos</option>
+  <option value="Acción">Acción</option>
+  <option value="Drama">Drama</option>
+  <option value="Comedia">Comedia</option>
+  <option value="Terror">Terror</option>
+</select>
+
+<label>Filtrar por estado:</label>
+<select id="filtroEstado" onchange="filtrar()">
+  <option value="todos">Todos</option>
+  <option value="pendiente">Pendiente</option>
+  <option value="visto">Visto</option>
+</select>
+<br><br>
+
+
+<ul id="lista" class="listado">
+
+</ul>
+
+</body>
+</html>
